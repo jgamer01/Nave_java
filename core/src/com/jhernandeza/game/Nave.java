@@ -8,41 +8,56 @@
     import java.util.List;
 
     public class Nave {
-        Texture texture;
-        float x, y, w, h, v;
-        List<Bala> balas;
 
-        Nave(){
-            texture = new Texture("nave.png");
+        Animacion animacion = new Animacion(16,
+                new Texture("nave1.png"),
+                new Texture("nave2.png"),
+                new Texture("nave3.png")
+        );
+
+        float x, y, w, h, v;
+        List<Disparo> disparos = new ArrayList<>();
+        int vidas = 3;
+        int puntos = 0;
+        boolean muerto = false;
+        Temporizador temporizadorFireRate = new Temporizador(20);
+        Temporizador temporizadorRespawn = new Temporizador(120, false);
+
+        Nave() {
             x = 100;
             y = 100;
-            w = 50;
-            h = 100;
+            w = 43 * 3;
+            h = 21 * 3;
             v = 5;
-            balas = new ArrayList<>();
         }
 
-        void render(SpriteBatch batch){
-            batch.draw(texture, x, y, w, h);
-
-            for (Bala bala: balas) {
-                bala.render(batch);
-            }
-        }
-
-        void update(){
-            for (Bala bala: balas) {
-                bala.update();
-            }
+        void update() {
+            for (Disparo disparo : disparos) disparo.update();
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) x += v;
             if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= v;
             if (Gdx.input.isKeyPressed(Input.Keys.W)) y += v;
             if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= v;
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                balas.add(new Bala(x+w/2, y+h));
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && temporizadorFireRate.suena() && !muerto) {
+                disparos.add(new Disparo(x + w / 2, y + h));
+            }
+
+            if (x < 0) x = 0;
+
+            if (temporizadorRespawn.suena()) {
+                muerto = false;
             }
         }
-    }
 
+        void render(SpriteBatch batch) {
+            batch.draw(animacion.ObtenerFrame(), x, y, w, h);
+            for (Disparo disparo : disparos) disparo.render(batch);
+        }
+
+        public void morir() {
+            vidas--;
+            muerto = true;
+            temporizadorRespawn.activar();
+        }
+    }

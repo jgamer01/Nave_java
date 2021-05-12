@@ -3,13 +3,13 @@ package com.jhernandeza.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Bala {
+public class Disparo {
     static Texture texture = new Texture("bala.png");
 
     float x, y, w, h, v;
 
-    Bala(float xNave, float yNave){
-        w = 20;
+    Disparo(float xNave, float yNave){
+        w = 70;
         h = 70;
         x = xNave-w/2;
         y = yNave*0.8f;
