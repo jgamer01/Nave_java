@@ -2,8 +2,6 @@ package com.jhernandeza.game;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import java.awt.*;
-
 public class Animacion {
     Texture[] textures;
     int duracion;
@@ -13,7 +11,7 @@ public class Animacion {
         this.duracion = duracion;
     }
 
-    Texture ObtenerFrame(){
+    Texture obtenerFrame(){
         int anim = Temporizador.framesJuego/duracion%textures.length;
         return textures[anim];
     }

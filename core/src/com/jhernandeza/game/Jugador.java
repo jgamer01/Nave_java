@@ -7,13 +7,11 @@
     import java.util.ArrayList;
     import java.util.List;
 
-    public class Nave {
+    public class Jugador {
 
         Animacion animacion = new Animacion(16,
-                new Texture("nave1.png"),
-                new Texture("nave2.png"),
-                new Texture("nave3.png")
-        );
+            new Texture("nave1.png"),
+    );
 
         float x, y, w, h, v;
         List<Disparo> disparos = new ArrayList<>();
@@ -23,7 +21,7 @@
         Temporizador temporizadorFireRate = new Temporizador(20);
         Temporizador temporizadorRespawn = new Temporizador(120, false);
 
-        Nave() {
+        Jugador() {
             x = 100;
             y = 100;
             w = 43 * 3;
@@ -39,7 +37,7 @@
             if (Gdx.input.isKeyPressed(Input.Keys.W)) y += v;
             if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= v;
 
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && temporizadorFireRate.suena() && !muerto) {
+            if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && temporizadorFireRate.suena() && !muerto) {
                 disparos.add(new Disparo(x + w / 2, y + h));
             }
 
@@ -51,7 +49,7 @@
         }
 
         void render(SpriteBatch batch) {
-            batch.draw(animacion.ObtenerFrame(), x, y, w, h);
+            batch.draw(animacion.obtenerFrame(), x, y, w, h);
             for (Disparo disparo : disparos) disparo.render(batch);
         }
 
