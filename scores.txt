@@ -2,3 +2,5 @@ ZAA,3,9
 AAA,1,6
 CAA,1,6
 AAA,4,8
+AAA,3,7
+ZAA,0,6

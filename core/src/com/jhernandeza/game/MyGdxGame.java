@@ -20,10 +20,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	List<Enemigo> enemigos;
 	List<Disparo> disparosAEliminar;
 	List<Enemigo> enemigosAEliminar;
+	List<Corazon> corazones;
 	Temporizador temporizadorNuevoEnemigo;
 	ScoreBoard scoreboard;
 	boolean gameover;
 	float tiempo = 0f;
+	Corazon c1,c2,c3;
 
 
 	@Override
@@ -44,9 +46,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		temporizadorNuevoEnemigo = new Temporizador(120);
 		disparosAEliminar = new ArrayList<>();
 		enemigosAEliminar = new ArrayList<>();
+		corazones = new ArrayList<>();
 		scoreboard = new ScoreBoard();
-
 		gameover = false;
+
+		c1 = new Corazon(535, 400);
+		corazones.add(c1);
+		c2 = new Corazon(485, 400);
+		corazones.add(c2);
+		c3 = new Corazon(435, 400);
+		corazones.add(c3);
 	}
 
 	void update() {
@@ -70,7 +79,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			if (!gameover && !jugador.muerto && Utils.solapan(enemigo.x, enemigo.y, enemigo.w, enemigo.h, jugador.x, jugador.y, jugador.w, jugador.h)) {
 				jugador.morir();
-				if (jugador.vidas == 0){
+				if (jugador.vidas == 2) {
+					corazones.remove(2);
+				} else if (jugador.vidas == 1) {
+					corazones.remove(1);
+				} else if (jugador.vidas == 0) {
+					corazones.remove(0);
 					gameover = true;
 				}
 			}
@@ -119,6 +133,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		fondo.render(batch);
 		jugador.render(batch);
 		for (Enemigo enemigo : enemigos) enemigo.render(batch);  // enemigos.forEach(e -> e.render(batch));
+
+		for (Corazon corazon : corazones) corazon.render(batch);
+
+
 		font.draw(batch, "" + jugador.vidas, 590, 440);
 		font.draw(batch, "" + jugador.puntos, 30, 440);
 		font.draw(batch, "" + jugador.puntostiempo, 30, 50);
