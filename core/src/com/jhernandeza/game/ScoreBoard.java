@@ -108,7 +108,7 @@ public class ScoreBoard {
     void guardarPuntuacion(int puntuacion) {
         try {
             FileWriter fileWriter = new FileWriter("scores.txt", true);
-            fileWriter.write(""+ nombre[0]+ nombre[1]+ nombre[2] + "," + puntuacion + "\n");
+            fileWriter.write(""+ nombre[0]+ nombre[1]+ nombre[2] + "," + puntuacion + "," +   "\n");
             fileWriter.close();
 
         } catch (IOException e) {
@@ -126,6 +126,7 @@ public class ScoreBoard {
             while (scanner.hasNext()) {
                 String nombre = scanner.next();
                 int puntos = scanner.nextInt();
+
 
                 scoreList.add(new Score(nombre, puntos));
             }

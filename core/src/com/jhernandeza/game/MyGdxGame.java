@@ -23,6 +23,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	Temporizador temporizadorNuevoEnemigo;
 	ScoreBoard scoreboard;
 	boolean gameover;
+	float tiempo = 0f;
 
 
 	@Override
@@ -85,6 +86,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (Enemigo enemigo : enemigosAEliminar) enemigos.remove(enemigo);               // enemigosAEliminar.forEach(enemigo -> enemigos.remove(enemigo));
 		disparosAEliminar.clear();
 		enemigosAEliminar.clear();
+
+		tiempo += 0.01f;
+		if (tiempo >= 1f) {
+			jugador.puntostiempo++;
+			tiempo=0f;
+		}
 
 		if(gameover) {
 			int result = scoreboard.update(jugador.puntos);
