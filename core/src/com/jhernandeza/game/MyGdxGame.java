@@ -109,7 +109,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (Enemigo enemigo : enemigos) enemigo.render(batch);  // enemigos.forEach(e -> e.render(batch));
 		font.draw(batch, "" + jugador.vidas, 590, 440);
 		font.draw(batch, "" + jugador.puntos, 30, 440);
-
+		font.draw(batch, "" + jugador.puntostiempo, 30, 50);
 		if (gameover){
 			scoreboard.Render(batch, font);
 		}

@@ -10,13 +10,14 @@
     public class Jugador {
 
         Animacion animacion = new Animacion(16,
-            new Texture("nave1.png"),
+            new Texture("nave1.png")
     );
 
         float x, y, w, h, v;
         List<Disparo> disparos = new ArrayList<>();
         int vidas = 3;
         int puntos = 0;
+        int puntostiempo = 0;
         boolean muerto = false;
         Temporizador temporizadorFireRate = new Temporizador(20);
         Temporizador temporizadorRespawn = new Temporizador(120, false);
@@ -39,6 +40,7 @@
 
             if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && temporizadorFireRate.suena() && !muerto) {
                 disparos.add(new Disparo(x + w / 2, y + h));
+                disparos.add(new Disparo(x + w / 2, (y-55) + h));
             }
 
             if (x < 0) x = 0;
