@@ -21,9 +21,11 @@ public class ScoreBoard {
         String nombre;
         int puntuacion;
 
-        public Score(String nombre, int puntuacion) {
+
+        public Score(String nombre, int puntuacion, int tiempo) {
             this.nombre = nombre;
             this.puntuacion = puntuacion;
+            this.
         }
     }
 
@@ -31,6 +33,7 @@ public class ScoreBoard {
     char[] nombre = {'A', 'A','A'};  // 65:A -> 90:Z
     int index = 0;  // 0=1a letra; 1=2a letra; 2=3a letra; 3=replay; 4=exit
     private boolean saved;
+    int tiempo;
 
     List<Score> scoreList = new ArrayList<>();
     
@@ -105,10 +108,14 @@ public class ScoreBoard {
         }
     }
 
+    void pasarTiempo(int tiempo){
+        this.tiempo = tiempo;
+    }
+
     void guardarPuntuacion(int puntuacion) {
         try {
             FileWriter fileWriter = new FileWriter("scores.txt", true);
-            fileWriter.write(""+ nombre[0]+ nombre[1]+ nombre[2] + "," + puntuacion + "," +   "\n");
+            fileWriter.write(""+ nombre[0]+ nombre[1]+ nombre[2] + "," + puntuacion + "," + tiempo + "\n");
             fileWriter.close();
 
         } catch (IOException e) {
@@ -126,9 +133,10 @@ public class ScoreBoard {
             while (scanner.hasNext()) {
                 String nombre = scanner.next();
                 int puntos = scanner.nextInt();
+                int puntostemporizados = scanner.nextInt();
 
 
-                scoreList.add(new Score(nombre, puntos));
+                scoreList.add(new Score(nombre, puntos, puntostemporizados));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -95,6 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		if(gameover) {
 			int result = scoreboard.update(jugador.puntos);
+			scoreboard.pasarTiempo(jugador.puntostiempo);
 			if(result == 1) {
 				inicializarJuego();
 			} else if (result == 2) {
