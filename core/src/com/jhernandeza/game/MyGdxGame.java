@@ -87,7 +87,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		disparosAEliminar.clear();
 		enemigosAEliminar.clear();
 
-		tiempo += 0.01f;
+		if (!gameover) {
+			tiempo += 0.01f;
+		}
 		if (tiempo >= 1f) {
 			jugador.puntostiempo++;
 			tiempo=0f;
@@ -97,6 +99,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			int result = scoreboard.update(jugador.puntos);
 			scoreboard.pasarTiempo(jugador.puntostiempo);
 			if(result == 1) {
+				tiempo = 0f;
+				jugador.puntostiempo = 0;
 				inicializarJuego();
 			} else if (result == 2) {
 				Gdx.app.exit();

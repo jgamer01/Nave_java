@@ -20,12 +20,13 @@ public class ScoreBoard {
     class Score {
         String nombre;
         int puntuacion;
+        int tiempo;
 
 
         public Score(String nombre, int puntuacion, int tiempo) {
             this.nombre = nombre;
             this.puntuacion = puntuacion;
-            this.
+            this.tiempo = tiempo;
         }
     }
 
@@ -33,10 +34,9 @@ public class ScoreBoard {
     char[] nombre = {'A', 'A','A'};  // 65:A -> 90:Z
     int index = 0;  // 0=1a letra; 1=2a letra; 2=3a letra; 3=replay; 4=exit
     private boolean saved;
-    int tiempo;
 
     List<Score> scoreList = new ArrayList<>();
-    
+
     int update(int puntos){
         if(index < 3 && Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             nombre[index]++;
@@ -96,6 +96,7 @@ public class ScoreBoard {
             for (int i = 0; i < 5 && i < scoreList.size(); i++) {
                 font.draw(batch, scoreList.get(i).nombre, 200, 340 - i * 40);
                 font.draw(batch, "" + scoreList.get(i).puntuacion, 380, 340 - i * 40);
+                font.draw(batch, "" + scoreList.get(i).tiempo, 430, 340 - i * 40);
             }
 
             if(index == 3) font.setColor(Color.RED);
@@ -108,6 +109,7 @@ public class ScoreBoard {
         }
     }
 
+    int tiempo;
     void pasarTiempo(int tiempo){
         this.tiempo = tiempo;
     }
