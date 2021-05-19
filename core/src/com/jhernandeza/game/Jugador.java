@@ -38,7 +38,7 @@
             if (Gdx.input.isKeyPressed(Input.Keys.W)) y += v;
             if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= v;
 
-            if (Gdx.input.isKeyPressed(Input.Keys.ENTER) && temporizadorFireRate.suena() && !muerto) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && temporizadorFireRate.suena() && !muerto) {
                 disparos.add(new Disparo(x + w / 2, y + h));
                 disparos.add(new Disparo(x + w / 2, (y-55) + h));
             }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -18,10 +17,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	Fondo fondo;
 	Jugador jugador;
 	List<Enemigo> enemigos;
+	List<Enemigo2> enemigos2;
 	List<Disparo> disparosAEliminar;
 	List<Enemigo> enemigosAEliminar;
+	List<Enemigo2> enemigos2AEliminar;
 	List<Corazon> corazones;
 	Temporizador temporizadorNuevoEnemigo;
+	Temporizador temporizadorNuevoEnemigo2;
 	ScoreBoard scoreboard;
 	boolean gameover;
 	float tiempo = 0f;
@@ -43,9 +45,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		fondo = new Fondo();
 		jugador = new Jugador();
 		enemigos = new ArrayList<>();
+		enemigos2 = new ArrayList<>();
 		temporizadorNuevoEnemigo = new Temporizador(120);
+		temporizadorNuevoEnemigo2 = new Temporizador(120);
 		disparosAEliminar = new ArrayList<>();
 		enemigosAEliminar = new ArrayList<>();
+		enemigos2AEliminar = new ArrayList<>();
 		corazones = new ArrayList<>();
 		scoreboard = new ScoreBoard();
 		gameover = false;
@@ -62,10 +67,13 @@ public class MyGdxGame extends ApplicationAdapter {
 		Temporizador.framesJuego += 1;
 
 		if (temporizadorNuevoEnemigo.suena()) enemigos.add(new Enemigo());
+		if (temporizadorNuevoEnemigo2.suena()) enemigos2.add(new Enemigo2());
+
 
 		if(!gameover) jugador.update();
 
 		for (Enemigo enemigo : enemigos) enemigo.update();              // enemigos.forEach(Enemigo::update);
+		for (Enemigo2 enemigo2 : enemigos2) enemigo2.update();
 
 		for (Enemigo enemigo : enemigos) {
 			for (Disparo disparo : jugador.disparos) {
@@ -73,7 +81,6 @@ public class MyGdxGame extends ApplicationAdapter {
 					disparosAEliminar.add(disparo);
 					enemigosAEliminar.add(enemigo);
 					jugador.puntos++;
-					break;
 				}
 			}
 
@@ -92,15 +99,41 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (enemigo.x < -enemigo.w) enemigosAEliminar.add(enemigo);
 		}
 
+		for (Enemigo2 enemigo2 : enemigos2) {
+			for (Disparo disparo : jugador.disparos) {
+				if (Utils.solapan(disparo.x, disparo.y, disparo.w, disparo.h, enemigo2.x, enemigo2.y, enemigo2.w, enemigo2.h)) {
+					disparosAEliminar.add(disparo);
+					enemigos2AEliminar.add(enemigo2);
+					jugador.puntos++;
+				}
+			}
+
+			if (!gameover && !jugador.muerto && Utils.solapan(enemigo2.x, enemigo2.y, enemigo2.w, enemigo2.h, jugador.x, jugador.y, jugador.w, jugador.h)) {
+				jugador.morir();
+				if (jugador.vidas == 2) {
+					corazones.remove(2);
+				} else if (jugador.vidas == 1) {
+					corazones.remove(1);
+				} else if (jugador.vidas == 0) {
+					corazones.remove(0);
+					gameover = true;
+				}
+			}
+
+			if (enemigo2.x < -enemigo2.w) enemigos2AEliminar.add(enemigo2);
+		}
+
+
 		for (Disparo disparo : jugador.disparos)
 			if (disparo.x > 640)
 				disparosAEliminar.add(disparo);
 
 		for (Disparo disparo : disparosAEliminar) jugador.disparos.remove(disparo);       // disparosAEliminar.forEach(disparo -> jugador.disparos.remove(disparo));
-		for (Enemigo enemigo : enemigosAEliminar) enemigos.remove(enemigo);               // enemigosAEliminar.forEach(enemigo -> enemigos.remove(enemigo));
+		for (Enemigo2 enemigo2 : enemigos2AEliminar) enemigos2.remove(enemigo2);               // enemigosAEliminar.forEach(enemigo -> enemigos.remove(enemigo));
+		for (Enemigo enemigo : enemigosAEliminar) enemigos.remove(enemigo);
 		disparosAEliminar.clear();
+		enemigos2AEliminar.clear();
 		enemigosAEliminar.clear();
-
 		if (!gameover) {
 			tiempo += 0.01f;
 		}
@@ -133,6 +166,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		fondo.render(batch);
 		jugador.render(batch);
 		for (Enemigo enemigo : enemigos) enemigo.render(batch);  // enemigos.forEach(e -> e.render(batch));
+		for (Enemigo2 enemigo2 : enemigos2) enemigo2.render(batch);
 
 		for (Corazon corazon : corazones) corazon.render(batch);
 
